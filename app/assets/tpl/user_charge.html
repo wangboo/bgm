@@ -1,0 +1,75 @@
+<useroperationmenu></useroperationmenu>
+<div class="col-md-8"> <!-- right -->
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{{user.nickName}} 的个人信息
+	</div>
+	<table class="table">
+		<thead>
+			<td>id</td>
+			<td>名字</td>
+			<td>等级</td>
+			<td>vip</td>
+			<td>战斗力</td>
+			<td>银两</td>
+			<td>元宝</td>
+			<td>代金券</td>
+			<td>上次时间</td>
+			<td>兵魂</td>
+			<td>将魂</td>
+			<td>体力</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{user.userId}}</td>
+				<td>{{user.nickName}}</td>
+				<td>{{user.level}}</td>
+				<td>{{user.vip}}</td>
+				<td>{{user.pow}}</td>
+				<td>{{user.silver}}</td>
+				<td>{{user.gold}}</td>
+				<td>{{user.donateGold}}</td>
+				<td>{{timeLongToString(user.psCostTime)}}</td>
+				<td>{{user.st}}</td>
+				<td>{{user.ss}}</td>
+				<td>{{user.ps}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{{user.nickName}} 的充值信息
+	</div>
+	<table class="table">
+		<thead>
+			<td>总金额</td>
+			<td>获得总元宝</td>
+			<td>赠送元宝</td>
+			<td>领取首冲礼包</td>
+			<td>首充赠送</td>
+			<td>领取项羽</td>
+			<td>领取vip日常</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{uc.totleMoney}}</td>
+				<td>{{uc.totleGold}}</td>
+				<td>{{uc.totleDonate}}</td>
+				<td>{{uc.fcGetGift==1?"是":"否"}}</td>
+				<td>{{uc.fcFirstCharge}}</td>
+				<td>{{uc.xiangyuFlag==1?"是":"否"}}</td>
+				<td>{{uc.vipDailyFlag==1?"是":"否"}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="text-center"><h2>充值历史</h2></div>
+<div class="well col-md-8 col-md-offset-2" ng-repeat="c in his">
+	<h4>金额：{{c.p}} 时间 {{c.pt}} 当时人物等级：{{c.lev}}</h4>
+</div>
+
+</div>

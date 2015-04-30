@@ -1,0 +1,43 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+module:testrunner
+
+GET     /                                       App.Index
+
+
+# angular 相关服务
+GET			/json/platforms													Platform.All
+GET			/json/platform/:id											Platform.Find
+#玩家数据查询		通过服务器id和玩家名字查询玩家
+POST		/json/gs/findUserByName									Query.FindUserByName
+#查询个人信息
+GET			/json/gs/info														Query.FindInfo
+#查询个人充值信息
+GET			/json/gs/userCharge											Query.FindUserCharge
+#查询玩家阵容
+GET			/json/gs/findGroup											Query.FindGroup
+#查询玩家道具
+GET			/json/gs/findUserProp										Query.FindUserProp
+#玩家设置
+GET 		/json/gs/userSetting 										Query.UserSetting
+#更新玩家聊天
+POST		/json/gs/updateChat											Query.UpdateChat
+#删除玩家聊天
+GET 		/json/gs/deleteChat											Query.DeleteChat
+#删除玩家邮件
+GET 		/json/gs/deleteMail											Query.DeleteMail
+
+#通过游戏服务器Id查询平台id
+GET 		/json/pid																Platform.Pid
+
+
+# Ignore favicon requests
+GET     /favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     /public/*filepath                       Static.Serve("public")
+
+# Catch all
+*       /:controller/:action                    :controller.:action

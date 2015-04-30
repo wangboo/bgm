@@ -1,0 +1,86 @@
+<userquerymenu></userquerymenu>
+<div class="col-md-8 panel panel-default keep-space">
+	<div class="panel-heading">
+		服务器列表
+	</div>
+	<table class="table">
+		<thead>
+			<td>服务器名</td>
+			<td>IP</td>
+			<td>端口</td>
+			<td>服务器状态</td>
+			<td>工作状态</td>
+			<td>选定</td>
+		</thead>
+		<tbody>
+			<tr ng-repeat="s in platform.Servers">
+				<td>{{s.Name}}</td>
+				<td>{{s.Ip}}</td>
+				<td>{{s.Port}}</td>
+				<td>{{s.State}}</td>
+				<td>{{s.WorkStateName}}</td>
+				<td><input type="checkbox" ng-model="s.check"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="well col-md-8">
+	<div class="input-group">
+		<span class="input-group-addon">玩家查找器</span>
+		<input type="text" class="form-control" placeholder="用户名(请勾选查找服务器)" ng-model="findUserName">
+		<span class="input-group-btn">
+			<button ng-click="findUser()" class="btn btn-default">查询</button>
+		</span>
+	</div>
+</div>
+<div class="col-md-8" ng-if="findUsers">
+		<span>查询结果</span>
+		<select ng-model="order" class="keep-space">
+      <option value="-level">等级</option>
+      <option value="-vip">vip</option>
+      <option value="-pow">战斗力</option>
+      <option value="-gold">元宝</option>
+      <option value="-silver">银两</option>
+	  </select>
+	<!-- </div> -->
+	<div class="panel panel-default" ng-repeat="u in findUsers">
+		<div class="panel-heading">
+			{{u.sinfo.Name}}
+		</div>
+		<table class="table" ng-init="p_index=$index">
+			<thead>
+				<td>id</td>
+				<td>名字</td>
+				<td>等级</td>
+				<td>vip</td>
+				<td>战斗力</td>
+				<td>银两</td>
+				<td>元宝</td>
+				<td>代金券</td>
+				<td>上次时间</td>
+				<td>兵魂</td>
+				<td>将魂</td>
+				<td>体力</td>
+				<td>操作</td>
+			</thead>
+			<tbody>
+				<tr ng-repeat="r in u.data|orderBy:order">
+					<td>{{r.userId}}</td>
+					<td>{{r.nickName}}</td>
+					<td>{{r.level}}</td>
+					<td>{{r.vip}}</td>
+					<td>{{r.pow}}</td>
+					<td>{{r.silver}}</td>
+					<td>{{r.gold}}</td>
+					<td>{{r.donateGold}}</td>
+					<td>{{timeLongToString(r.psCostTime)}}</td>
+					<td>{{r.st}}</td>
+					<td>{{r.ss}}</td>
+					<td>{{r.ps}}</td>
+					<td><button class="btn btn-default" ng-click="jumpToUserInfo(p_index, $index)">信息</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<!-- </div> -->

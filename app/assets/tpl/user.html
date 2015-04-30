@@ -1,0 +1,123 @@
+<useroperationmenu></useroperationmenu>
+
+<div class="col-md-8"> <!-- right -->
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{{u.sinfo.Name}}
+	</div>
+	<table class="table">
+		<thead>
+			<td>id</td>
+			<td>名字</td>
+			<td>等级</td>
+			<td>vip</td>
+			<td>战斗力</td>
+			<td>银两</td>
+			<td>元宝</td>
+			<td>代金券</td>
+			<td>上次时间</td>
+			<td>兵魂</td>
+			<td>将魂</td>
+			<td>体力</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{user.userId}}</td>
+				<td>{{user.nickName}}</td>
+				<td>{{user.level}}</td>
+				<td>{{user.vip}}</td>
+				<td>{{user.pow}}</td>
+				<td>{{user.silver}}</td>
+				<td>{{user.gold}}</td>
+				<td>{{user.donateGold}}</td>
+				<td>{{timeLongToString(user.psCostTime)}}</td>
+				<td>{{user.st}}</td>
+				<td>{{user.ss}}</td>
+				<td>{{user.ps}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+
+<div class="col-md-12">
+	<div class="text-center"><h2>英雄信息</h2></div>
+</div>
+<!-- 英雄信息开始 -->
+<div class="well col-md-12" ng-repeat="h in heros">
+	<!-- 左边人物属性 -->
+	<div class="hero-left col-md-4">
+		<div class="text-center">
+			<h3>{{h.name}}</h3>
+		</div>
+		<div class="">
+			<div>
+				<div class="col-md-6">攻击:{{h.atk}}</div><div class="col-md-6">防御:{{h.def}}</div>
+			</div>
+			<div>
+				<div class="col-md-6">血量:{{h.hp}}</div><div class="col-md-6">谋略:{{h.ruse}}</div>
+			</div>
+			<div>
+				<div class="col-md-6">命中:{{h.hitRate}}</div><div class="col-md-6">闪避:{{h.miss}}</div>
+			</div>
+			<div>
+				<div class="col-md-6">格挡:{{h.block}}</div><div class="col-md-6">暴击:{{h.crit}}</div>
+			</div>
+		</div>
+	</div>
+	<!-- 左边 -->
+	<div class="col-md-8">
+	<h4>{{h.stage}}阶&nbsp;&nbsp;&nbsp;&nbsp;剩余天赋点数：{{h.leftTalent}} 阵位：{{h.pos}}</h4>
+	<!-- 谋略技能 -->
+	<div class="ruse-skill">
+		<h4>谋略技能:{{h.ruseMagic.name}}({{h.ruseMagic.type}})&nbsp;&nbsp;&nbsp;&nbsp;等级：{{h.ruseMagic.level}}&nbsp;&nbsp;&nbsp;&nbsp;
+		{{h.ruseMagic.skp}}</h4>
+		<div>{{h.attr1.desc}}</div>
+	</div>
+	<!-- 技能 -->
+	<div class="attr-skill" ng-if="h.attr0">
+		<h4>被动技能：{{h.attr0.quality}} : {{h.attr0.name}}&nbsp;&nbsp;&nbsp;&nbsp;等级：{{h.attr0.level}}&nbsp;&nbsp;&nbsp;&nbsp;
+		{{h.attr0.type}}{{h.attr0.add}}</h4>
+	</div>
+	<div class="attr-skill" ng-if="h.attr1">
+		<h4>被动技能：{{h.attr1.quality}} : {{h.attr1.name}}&nbsp;&nbsp;&nbsp;&nbsp;等级：{{h.attr1.level}}&nbsp;&nbsp;&nbsp;&nbsp;
+		{{h.attr1.type}}{{h.attr1.add}}</h4>
+	</div>
+	<!-- 装备: 武器 -->
+	<div class="col-md-4 equip" ng-if="h.weaponName" ng-class="qualityClass(h.weaponQua)">
+		<div class="text-center"><h4>{{h.weaponName}}</h4></div>
+		<div class="text-center"><h6>强化+{{h.weaponLev}}</h6></div>
+		<div class="text-center"><h6>品质+{{getQuanlityName(h.weaponQua)}}</h6></div>
+	</div>
+	<!-- 装备: 衣服 -->
+	<div class="col-md-4 equip" ng-if="h.clothesName" ng-class="qualityClass(h.clothesQua)">
+		<div class="text-center"><h4>{{h.clothesName}}</h4></div>
+		<div class="text-center"><h6>强化+{{h.clothesLev}}</h6></div>
+		<div class="text-center"><h6>品质+{{getQuanlityName(h.clothesQua)}}</h6></div>
+	</div>
+	<!-- 装备: 饰品 -->
+	<div class="col-md-4 equip" ng-if="h.jewelName" ng-class="qualityClass(h.jewelQua)">
+		<div class="text-center"><h4>{{h.jewelName}}</h4></div>
+		<div class="text-center"><h6>强化+{{h.jewelLev}}</h6></div>
+		<div class="text-center"><h6>品质+{{getQuanlityName(h.jewelQua)}}</h6></div>
+	</div>
+	</div>
+</div>
+
+<!-- 英雄结束 -->
+<!-- 道具 -->
+<div class="col-md-12">
+	<div class="text-center"><h2>道具信息</h2></div>
+</div>
+
+<div class="col-md-12">
+	<div class="col-md-3 prop" ng-repeat="p in props" ng-class="propClass($index, p.q)">
+		<h4>{{p.name}} X {{p.amount}}</h4>
+	</div>
+</div>
+
+
+</div>  <!-- end right -->
+
+

@@ -1,0 +1,100 @@
+<useroperationmenu></useroperationmenu>
+<div class="col-md-8"> <!-- right -->
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		{{user.nickName}} 的个人信息
+	</div>
+	<table class="table">
+		<thead>
+			<td>id</td>
+			<td>名字</td>
+			<td>等级</td>
+			<td>vip</td>
+			<td>战斗力</td>
+			<td>银两</td>
+			<td>元宝</td>
+			<td>代金券</td>
+			<td>上次时间</td>
+			<td>兵魂</td>
+			<td>将魂</td>
+			<td>体力</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{user.userId}}</td>
+				<td>{{user.nickName}}</td>
+				<td>{{user.level}}</td>
+				<td>{{user.vip}}</td>
+				<td>{{user.pow}}</td>
+				<td>{{user.silver}}</td>
+				<td>{{user.gold}}</td>
+				<td>{{user.donateGold}}</td>
+				<td>{{timeLongToString(user.psCostTime)}}</td>
+				<td>{{user.st}}</td>
+				<td>{{user.ss}}</td>
+				<td>{{user.ps}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<!-- 用户数据 -->
+<div class="col-md-12 panel panel-info">
+	<div class="panel-heading">
+		禁言设置
+	</div>
+	<div class="panel-body col-md-12">
+		是否被禁言<input type="checkbox" ng-model="userAuthForbiddenLogin">&nbsp;&nbsp;&nbsp;&nbsp;
+		禁言持续时间 <input ng-value="timeLongToString(base.authTime)" ng-model="userAuthForbiddenTime" class="form-control col-md-2">
+	</div>
+</div>
+<div class="col-md-12">
+	<div class="text-center"><h2>他的聊天记录</h2></div>
+	<div class="well col-md-12" ng-repeat="m in chats">
+		<div class="col-md-9">
+			<h4>{{roomName(m.room)}}@{{timeLongToString(m.msg_at)}} {{m.msg}}</h4>
+		</div>
+		<div class="pull-right">
+			<button class="btn btn-primary" ng-click="alterModifyChat($index)">修改</button>
+			<button class="btn btn-danger" ng-click="deleteChat($index)">删除</button>
+		</div>
+	</div>
+</div>
+<div class="text-center"><h2>他的系统邮件</h2></div>
+	<div class="well col-md-12" ng-repeat="m in sysMails">
+		<div class="col-md-9">
+			<h4>系统@{{timeLongToString(m.sendAt)}}</h4>
+			<p>{{m.msg}}</p>
+			<div ng-if="m.isReward==1">
+				<h5>奖励：{{m.reward}} (没有领取)</h5>
+			</div>
+		</div>
+		<div class="pull-right">
+			<button class="btn btn-danger" ng-click="deleteSysMail($index)">删除</button>
+		</div>
+	</div>
+</div>
+
+
+<!-- 模态框 -->
+<div class="modal fade" id="chatModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">修改聊天记录</h4>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+        	<span class="input-group-addon">{{roomName(modifyChat.room)}}</span>
+        	<input class="form-control" type="text" ng-model="modifyChat.msg">
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+        <button type="button" class="btn btn-primary" ng-click="saveModifyChat()">保存</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

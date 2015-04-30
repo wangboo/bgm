@@ -1,0 +1,10 @@
+<div class="col-md-2 keep-space menu">
+<ul class="nav nav-pills nav-stacked">
+	<li class="disable"><h3>功能列表</h3></li>
+	<li ng-class="menu=='info'?'active':''"><a ng-click="jumpToUserInfo()">个人详情</a></li>
+	<li ng-class="menu=='charge'?'active':''"><a ng-click="jumpToUserCharge()">充值详情</a></li>
+	<li ng-class="menu=='setting'?'active':''"><a ng-click="jumpToUserSetting()">个人设置</a></li>
+	<li class="divider"></li>
+	<li><a ng-click="jumpToPlatform()">退回到平台</a></li>
+</ul>
+</div>
