@@ -1,4 +1,4 @@
-app = angular.module("myapp", ['ngRoute'])
+app = angular.module("myapp", ['ngRoute']) 
 
 # 路由配置
 app.config ["$routeProvider", ($routeProvider)->
@@ -113,6 +113,6 @@ findServerById = (servers, id)-> for s in servers when s.Id == id then return s 
 
 timeLongToString = (timeLong)-> 
 	d = new Date(timeLong)
-	"#{d.getFullYear()}年#{d.getMonth()}月#{d.getDate()} #{d.getHours()}:#{d.getMinutes()}"
+	"#{d.getFullYear()}-#{d.getMonth()}-#{d.getDate()} #{d.getHours()}:#{d.getMinutes()}"
 
 

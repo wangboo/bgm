@@ -12,12 +12,14 @@ app.controller "UserSettingCtrl", ["$scope", "$http", "$location", ($scope, $htt
 	$scope.menu = 'setting'
 	$scope.roomName = roomName
 	$scope.timeLongToString = timeLongToString
+
 	unless $scope.user then getUserInfo($http, $scope, $scope.sid, $scope.uid)
 	getUserSetting($http, $scope)
 	$scope.alterModifyChat = alterModifyChat($scope)
 	$scope.saveModifyChat = saveModifyChat($scope, $http)
 	$scope.deleteChat = deleteChat($scope, $http)
 	$scope.deleteSysMail = deleteSysMail($scope, $http)
+	$scope.authBtncClick = authBtncClick($scope)
 ]
 
 # 获取充值信息
@@ -41,6 +43,9 @@ getUserSetting = ($http, $scope)->
 		$scope.base = data.base 
 		# 登陆是否被限制
 		$scope.userAuthForbiddenLogin = data.base == 1 or false 
+		$scope.userChatForbiddenLogin = data.base == 1 or false 
+		$scope.userAuthForbiddenTime = timeLongToString(data.base.authTime)
+		$scope.userChatForbiddenTime = timeLongToString(data.base.authChatTime)
 
 # 弹出聊天修改框
 alterModifyChat = ($scope)-> (index)->
@@ -55,6 +60,10 @@ saveModifyChat = ($scope, $http) -> ()->
 		id: $scope.modifyChat.id
 		msg: $scope.modifyChat.msg 
 	$.post("/json/gs/updateChat", data, ()-> $("#chatModal").modal('toggle'))
+
+# 登陆权限按钮
+authBtncClick = ($scope) -> ()-> 
+	console.log "af $scope.userAuthForbiddenLogin = ", $scope.userAuthForbiddenLogin
 
 # 删除聊天消息
 deleteChat = ($scope, $http)-> (index)->
