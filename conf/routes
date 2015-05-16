@@ -28,6 +28,20 @@ POST		/json/gs/updateChat											Query.UpdateChat
 GET 		/json/gs/deleteChat											Query.DeleteChat
 #删除玩家邮件
 GET 		/json/gs/deleteMail											Query.DeleteMail
+#登陆限制
+POST 		/json/gs/forbiddenLogin 								Query.ForbiddenLogin
+POST 		/json/gs/forbiddenChat 									Query.ForbiddenChat
+
+#激活码
+GET			/json/ac/all 														AC.FindAllActiveBatches
+GET 		/json/ac/:id/all 												AC.FindAllActiveCodes
+GET			/json/ac/all_type 											AC.FindAllActiveTypes
+GET			/json/ac/all_reward 										AC.FindAllActiveRewards
+GET			/json/ac/create			 										AC.Create
+
+#权限验证
+GET			/json/auth/validate 										Auth.Validate
+POST 		/json/auth/login 												Auth.Login
 
 #通过游戏服务器Id查询平台id
 GET 		/json/pid																Platform.Pid

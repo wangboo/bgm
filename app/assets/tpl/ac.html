@@ -1,0 +1,95 @@
+<div class="col-md-12">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="well keep-space">
+			<h4>生成新的激活码</h4>
+		</div>
+		<form class="form-horizontal">
+		<div class="form-group col-md-12">
+			<div class="checkbox">
+				<label><input type="checkbox" ng-model="all">全部平台</label>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<h4>指定平台</h4>
+		</div>
+		<div class="col-md-12">
+			<div ng-repeat="p in platforms" class="col-md-3">
+				<input type="checkbox" ng-model="p.select">
+				<label type="text">{{p.Name}}</label>
+			</div>
+		</div>
+		<div class="col-md-12"><h4>激活码参数</h4></div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="name">名字</label>
+			<div class="col-md-8">
+				<input class="col-md-10 form-control" ng-model="name" id="name">
+			</div>
+		</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="size">数量</label>
+			<div class="col-md-8">
+				<input class="col-md-10 form-control" ng-model="size" id="size">
+			</div>
+		</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="type">类型</label>
+			<div class="col-md-8">
+				<select class="form-control" id="type" ng-model="type">
+					<option ng-repeat="t in all_type" value="{{t.Id}}">{{t.Name}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="reward">奖励</label>
+			<div class="col-md-8">
+				<select class="form-control" id="reward" ng-model="reward">
+					<option ng-repeat="r in all_reward" value="{{r.Id}}">{{r.Name}}</option>
+				</select>
+			</div>
+		</div>
+		<!-- 有效期 -->
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="beginAt">有效开始</label>
+			<div class="col-md-8">
+				<input class="col-md-10 form-control" ng-model="beginAt" id="beginAt" placeholder="yyyy-MM-dd(如2015-05-09)">
+			</div>
+		</div>
+		<div class="form-group col-md-6">
+			<label class="col-md-4 control-label" for="EndAt">有效结束</label>
+			<div class="col-md-8">
+				<input class="col-md-10 form-control" ng-model="EndAt" id="EndAt" placeholder="yyyy-MM-dd(如2015-12-09)">
+			</div>
+		</div>
+		<!-- 多次使用 -->
+		<div class="form-group col-md-4">
+			<div class="checkbox pull-right">
+				<label class="col-md-4 control-label" for="prefix">前缀</label>
+			<div class="col-md-8">
+				<input class="col-md-10 form-control" ng-model="prefix" id="prefix">
+			</div>
+			</div>
+		</div>
+		<div class="form-group col-md-3">
+			<div class="checkbox pull-right">
+				<input type="checkbox" ng-model="isMuti">多次使用 
+			</div>
+		</div>
+		<div class="form-group col-md-5">
+			<label class="col-md-4 control-label" for="mutiTimes">使用次数</label>
+			<div class="col-md-8">
+				<input class="col-md-10 form-control" ng-model="mutiTimes" id="mutiTimes" placeholder="(如1000表示可重复使用1000次)" ng-disabled="!isMuti">
+			</div>
+		</div>
+		<!-- 描述 -->
+		<div class="form-group col-md-12">
+			<label class="col-md-2 control-label" for="desc">该批次描述</label>
+			<div class="col-md-9">
+				<input class="col-md-10 form-control" ng-model="desc" id="desc">
+			</div>
+		</div>
+		<div class="col-md-12 text-center">
+			<button ng-click="acCommit()" class="btn btn-default">提交</button>
+		</div>
+		</form>
+	</div>
+</div>

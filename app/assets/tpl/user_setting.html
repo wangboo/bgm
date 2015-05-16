@@ -47,20 +47,20 @@
 		<div class="col-md-12">
 			<div class="col-md-8">
 				<div class="input-group">
-					<span class="input-group-addon">禁止登陆<input type="checkbox" ng-model="userAuthForbiddenLogin" ng-click="authBtncClick()">
+					<span class="input-group-addon">禁止登陆<input type="checkbox" ng-model="userAuthForbiddenLogin">
 					</span>
 					<input ng-model="userAuthForbiddenTime" class="form-control col-md-2" id="authTimeInput" ng-disabled="!userAuthForbiddenLogin">
 					<span class="input-group-addon">禁止时间</span>
 				</div>
 			</div>
 			<div class="col-md-2 pull-right">
-				<button class="btn btn-default" ng-click="authClick()">确定</button>
+				<button class="btn btn-primary" ng-click="authLoginClick()">确定</button>
 			</div>
 		</div>
 		<div class="col-md-12 keep-space">
 			<div class="col-md-8">
 				<div class="input-group">
-					<span class="input-group-addon">禁止发言<input type="checkbox" ng-model="userChatForbiddenLogin" ng-click="authBtncClick()">
+					<span class="input-group-addon">禁止发言<input type="checkbox" ng-model="userChatForbiddenLogin">
 					</span>
 					<input ng-model="userChatForbiddenTime" class="form-control col-md-2" id="authTimeInput" ng-disabled="!userChatForbiddenLogin">
 					<span class="input-group-addon">禁止时间</span>

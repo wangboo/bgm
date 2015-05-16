@@ -17,11 +17,47 @@ app.config ["$routeProvider", ($routeProvider)->
 	.when("/user_setting/:sid/:uid",
 		templateUrl: 	"/tpl/user_setting.html"
 		controller: 	"UserSettingCtrl")
-
+	.when("/ac",
+		templateUrl:	"/tpl/ac.html"
+		controller:		"AcCtrl")
+	.when("/login",
+		templateUrl: 	"/tpl/login.html"
+		controller: 	"AuthCtrl")
 ]
+
+app.controller "AuthCtrl", ["$scope", "$http", "$location", ($scope, $http, $location)->
+	$scope.loginBtn = loginBtn($scope, $http, $location)
+]
+
+loginBtn = ($scope, $http, $location)-> ()->
+	data = 
+		username: $scope.username
+		password: $scope.password
+	console.log "login params = ", data
+	$.post("/json/auth/login", data, (data)->
+		console.log "login resp ", data
+		if data.ok 
+			$location.path("/")
+		else 
+			$scope.error = data.msg 
+			# $scope.$apply()
+	)
+	# $http.post("/json/auth/login", data).success (data)->
+	# 	console.log "login resp ", data
+	# 	if data.ok 
+	# 		$location.path("/")
+	# 	else 
+	# 		$scope.error = data.msg 
+	# 		$scope.$apply()
 
 # 主页面
 app.controller "MainCtrl", ["$scope", "$http", "$location", ($scope, $http, $location)->
+	$http.get("/json/auth/validate").success (data)->
+		console.log "auth = ", data
+		unless data.ok 
+			$location.path("/login")
+
+
 	$http.get("/json/platforms").success((data)-> $scope.platforms = data)
 	$scope.btnClick = (index)->
 		p = $scope.platforms[index]
@@ -113,6 +149,12 @@ findServerById = (servers, id)-> for s in servers when s.Id == id then return s 
 
 timeLongToString = (timeLong)-> 
 	d = new Date(timeLong)
-	"#{d.getFullYear()}-#{d.getMonth()}-#{d.getDate()} #{d.getHours()}:#{d.getMinutes()}"
+	month = ti2s(d.getMonth()+1)
+	date = ti2s(d.getDate())
+	hour = ti2s(d.getHours())
+	minute = ti2s(d.getMinutes())
+	"#{d.getFullYear()}-#{month}-#{date} #{hour}:#{minute}"
+
+ti2s = (num) -> if num < 10 then "0#{num}" else num
 
 

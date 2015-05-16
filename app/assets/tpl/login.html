@@ -1,0 +1,22 @@
+<div class="col-md-offset-4">
+	<div style="height:200px"></div>
+	<div class="panel panel-info col-md-4">
+		<legend style="margin:10px 0px 10px 0px"><h3>BGM后台</h3></legend>
+	  <div class="panel-body">
+			<form role="form">
+				<div class="alert alert-danger" ng-show="error">
+					{{error}}
+				</div>
+				<div class="form-group">
+					<label for="username">账号</label>
+					<input type="text" class="form-control" id="username" ng-model="username" placeholder="GM账号">
+				</div>
+				<div class="form-group">
+					<label for="password">密码</label>
+					<input type="password" class="form-control" id="password" ng-model="password" placeholder="GM账号">
+				</div>
+				<button type="submit" class="btn btn-primary" ng-click="loginBtn()">登陆</button>
+			</form>
+	  </div>
+	</div>
+</div>

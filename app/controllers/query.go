@@ -7,6 +7,7 @@ import (
 	"github.com/wangboo/bgm/app/model"
 	"net/url"
 	"strings"
+	"time"
 )
 
 type Query struct {
@@ -94,6 +95,44 @@ func FindDataByUri(sid, uri string) interface{} {
 	}
 	data := model.GetDataFromGameServer(server, uri)
 	return data
+}
+
+// 登陆限制
+func (c *Query) ForbiddenLogin(login bool, sid, loginTime string, uid int) revel.Result {
+	revel.INFO.Printf("login %v, sid=%s, loginTme %s \n", login, sid, loginTime)
+	var sec int64
+	if login {
+		ltime, err := time.Parse("2006-01-02 03:04", loginTime)
+		if err != nil {
+			return c.RenderJson(fail("日期格式错误,请严格按照(年年年年-月月-日日 时时:分分)格式！"))
+		}
+		revel.INFO.Printf("ltime = %v \n", ltime)
+		sec = ltime.Unix() * 1000
+	}
+	url := fmt.Sprintf("/rest/forbiddenLogin?uid=%d&login=%v&loginTime=%d", uid, login, sec)
+	revel.INFO.Printf("request url = %s \n", url)
+	FindDataByUri(sid, url)
+	return c.RenderJson(success())
+}
+
+// 登陆聊天
+func (c *Query) ForbiddenChat(chat bool, sid, chatTime string, uid int) revel.Result {
+	var sec int64
+	if chat {
+		ltime, err := time.Parse("2006-01-02 03:04", chatTime)
+		if err != nil {
+			return c.RenderJson(fail("日期格式错误,请严格按照(年年年年-月月-日日 时时:分分)格式！"))
+		}
+		sec = ltime.Unix() * 1000
+	}
+	url := fmt.Sprintf("/rest/forbiddenChat?uid=%d&chat=%v&chatTime=%d", uid, chat, sec)
+	revel.INFO.Printf("request url = %s \n", url)
+	FindDataByUri(sid, url)
+	return c.RenderJson(success())
+}
+
+func success() map[string]bool {
+	return map[string]bool{"ok": true}
 }
 
 func fail(reason string) map[string]interface{} {

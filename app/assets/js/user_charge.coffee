@@ -19,7 +19,8 @@ app.controller "UserSettingCtrl", ["$scope", "$http", "$location", ($scope, $htt
 	$scope.saveModifyChat = saveModifyChat($scope, $http)
 	$scope.deleteChat = deleteChat($scope, $http)
 	$scope.deleteSysMail = deleteSysMail($scope, $http)
-	$scope.authBtncClick = authBtncClick($scope)
+	$scope.authLoginClick = authLoginClick($scope)
+	$scope.authChatClick = authChatClick($scope)
 ]
 
 # 获取充值信息
@@ -42,8 +43,8 @@ getUserSetting = ($http, $scope)->
 		$scope.userMails = data.userMails or []
 		$scope.base = data.base 
 		# 登陆是否被限制
-		$scope.userAuthForbiddenLogin = data.base == 1 or false 
-		$scope.userChatForbiddenLogin = data.base == 1 or false 
+		$scope.userAuthForbiddenLogin = data.base.auth == 1 or false 
+		$scope.userChatForbiddenLogin = data.base.authChat == 1 or false 
 		$scope.userAuthForbiddenTime = timeLongToString(data.base.authTime)
 		$scope.userChatForbiddenTime = timeLongToString(data.base.authChatTime)
 
@@ -61,9 +62,22 @@ saveModifyChat = ($scope, $http) -> ()->
 		msg: $scope.modifyChat.msg 
 	$.post("/json/gs/updateChat", data, ()-> $("#chatModal").modal('toggle'))
 
-# 登陆权限按钮
-authBtncClick = ($scope) -> ()-> 
-	console.log "af $scope.userAuthForbiddenLogin = ", $scope.userAuthForbiddenLogin
+#登陆权限提交按钮
+authLoginClick = ($scope)-> ()->
+	data = 
+		sid: $scope.sid
+		uid: $scope.uid
+		login: $scope.userAuthForbiddenLogin
+		loginTime: $scope.userAuthForbiddenTime
+	$.post("/json/gs/forbiddenLogin", data, (data)-> console.log "forbiddenLogin resp ", data)
+
+authChatClick = ($scope)-> ()->
+	data = 
+		sid: $scope.sid
+		uid: $scope.uid
+		chat: $scope.userChatForbiddenLogin
+		chatTime: $scope.userChatForbiddenTime
+	$.post("/json/gs/forbiddenChat", data, (data)-> console.log "forbiddenLogin resp ", data)
 
 # 删除聊天消息
 deleteChat = ($scope, $http)-> (index)->
