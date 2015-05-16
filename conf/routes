@@ -10,6 +10,7 @@ GET     /                                       App.Index
 # angular 相关服务
 GET			/json/platforms													Platform.All
 GET			/json/platform/:id											Platform.Find
+GET			/json/platformServers/:ids							Platform.FindServerMutl
 #玩家数据查询		通过服务器id和玩家名字查询玩家
 POST		/json/gs/findUserByName									Query.FindUserByName
 #查询个人信息

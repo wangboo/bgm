@@ -1,7 +1,7 @@
 package model
 
 import (
-	"github.com/revel/revel"
+	// "github.com/revel/revel"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
 	"time"
@@ -40,7 +40,6 @@ func FindAllPlatform() []Platform {
 
 //通过id查询平台
 func FindPlatform(id string) *Platform {
-	revel.INFO.Printf("id = %s \n", id)
 	s := Session()
 	defer s.Close()
 	colPlatform := ColPlatform(s)
@@ -50,4 +49,18 @@ func FindPlatform(id string) *Platform {
 	colServer := ColServer(s)
 	colServer.Find(bson.M{"platform_id": objectId}).All(&platform.Servers)
 	return platform
+}
+
+// 通过平台id查询maskId 集合
+func FindPlatformMaskByIds(ids []string) []string {
+	s := Session()
+	defer s.Close()
+	c := ColPlatform(s)
+	hexIds := []bson.ObjectId{}
+	for _, id := range ids {
+		hexIds = append(hexIds, bson.ObjectIdHex(id))
+	}
+	masks := []string{}
+	c.Find(bson.M{"_id": bson.M{"$in": hexIds}}).Select(bson.M{"mask": 1}).Distinct("mask", &masks)
+	return masks
 }

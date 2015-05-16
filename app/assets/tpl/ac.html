@@ -9,15 +9,29 @@
 				<label><input type="checkbox" ng-model="all">全部平台</label>
 			</div>
 		</div>
-		<div class="col-md-12">
+		<div class="col-md-12" ng-show="!all">
 			<h4>指定平台</h4>
 		</div>
-		<div class="col-md-12">
+		<div class="col-md-12" ng-show="!all">
 			<div ng-repeat="p in platforms" class="col-md-3">
-				<input type="checkbox" ng-model="p.select">
-				<label type="text">{{p.Name}}</label>
+				<input type="checkbox" ng-model="p.select" ng-click="queryServer()">
+				<label type="text">{{p.Name}}({{p.Mask}})</label>
 			</div>
 		</div>
+		<div class="col-md-12 checkbox">
+				<label><input type="checkbox" ng-model="allServer" ng-disabled="all" ng-change="queryServer()">全部服务器</label>
+			</div>
+		<div class="col-md-12" ng-show="!allServer">
+			<h4>指定服务器</h4>
+		</div>
+		<div class="col-md-12" ng-show="!allServer">
+			<div ng-repeat="s in selectServers" class="col-md-3">
+				<input type="checkbox" ng-model="s.select">
+				<label type="text">{{s.Name}}</label>
+			</div>
+		</div>
+		
+
 		<div class="col-md-12"><h4>激活码参数</h4></div>
 		<div class="form-group col-md-6">
 			<label class="col-md-4 control-label" for="name">名字</label>
@@ -55,9 +69,9 @@
 			</div>
 		</div>
 		<div class="form-group col-md-6">
-			<label class="col-md-4 control-label" for="EndAt">有效结束</label>
+			<label class="col-md-4 control-label" for="endAt">有效结束</label>
 			<div class="col-md-8">
-				<input class="col-md-10 form-control" ng-model="EndAt" id="EndAt" placeholder="yyyy-MM-dd(如2015-12-09)">
+				<input class="col-md-10 form-control" ng-model="endAt" id="endAt" placeholder="yyyy-MM-dd(如2015-12-09)">
 			</div>
 		</div>
 		<!-- 多次使用 -->

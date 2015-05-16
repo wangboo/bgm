@@ -1,10 +1,10 @@
 package model
 
 import (
+	"fmt"
 	"github.com/revel/revel"
 	"labix.org/v2/mgo"
 	"labix.org/v2/mgo/bson"
-	// "time"
 )
 
 var (
@@ -15,9 +15,13 @@ type ActiveCode struct {
 	Id            bson.ObjectId `bson:"_id"`
 	Code          string        `bson:"code"`
 	UseFlag       bool          `bson:"use_flag"`
-	Times         int           `bson:"times"`
-	ServerUserId  bson.ObjectId `bson:"server_user_id"`
+	Times         int           `bson:"times"` // 批量使用的剩余次数
+	ServerUserId  bson.ObjectId `bson:"server_user_id,omitempty"`
 	ActiveBatchId bson.ObjectId `bson:"active_batch_id"`
+}
+
+func (c *ActiveCode) String() string {
+	return fmt.Sprintf("Id=%v,Code=%s", c.Id, c.Code)
 }
 
 func ColActiveCode(s *mgo.Session) *mgo.Collection {
@@ -61,7 +65,11 @@ func CreateActiveCodes(acs []*ActiveCode) {
 		}
 	}
 	if len(batch) > 0 {
-		c.Insert(batch...)
+		err := c.Insert(batch...)
+		if err != nil {
+			revel.ERROR.Println("save batch error ", err.Error())
+		}
 		revel.INFO.Printf("insert %d codes \n", len(batch))
+		revel.INFO.Println("batch = ", batch)
 	}
 }

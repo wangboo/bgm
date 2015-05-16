@@ -15,17 +15,17 @@ type Ac struct {
 }
 
 // 创建
-func (c *Ac) Create(all, isMuti bool, name, rType, reward, beginAt, endAt, desc, prefix string,
-	size, mutiTimes int, pids string) revel.Result {
-	pidArr := strings.Split(pids, ",")
+func (c *Ac) Create(all, allServer, isMuti bool, name, rType, reward, beginAt, endAt, desc, prefix string,
+	size, mutiTimes int, pids, sids string) revel.Result {
+	revel.INFO.Println("prefix ", prefix)
 	ab := model.ActiveBatch{Name: name, Desc: desc}
 	beginAtTime, err := time.Parse("2006-01-02", beginAt)
 	if err != nil {
-		return c.RenderText("err when parse beginAt %s", err.Error())
+		return c.RenderJson(bson.M{"ok": false, "msg": "开始时间错误，格式必须为：年年年年-月月-日日"})
 	}
 	endAtTime, err := time.Parse("2006-01-02", endAt)
 	if err != nil {
-		return c.RenderText("err when parse beginAt %s", err.Error())
+		return c.RenderJson(bson.M{"ok": false, "msg": "结束时间错误，格式必须为：年年年年-月月-日日"})
 	}
 	ab.BeginTime = beginAtTime
 	ab.EndTime = endAtTime
@@ -33,11 +33,17 @@ func (c *Ac) Create(all, isMuti bool, name, rType, reward, beginAt, endAt, desc,
 	ab.AllPlatform = all
 	if !all {
 		// 勾选平台
-		pidObjectIds := []bson.ObjectId{}
-		for _, pid := range pidArr {
-			pidObjectIds = append(pidObjectIds, bson.ObjectIdHex(pid))
-		}
-		ab.PlatformIds = pidObjectIds
+		pidArr := strings.Split(pids, ",")
+		// revel.INFO.Println("ab.pidArr = ", pidArr)
+		ab.PlatformMasks = model.FindPlatformMaskByIds(pidArr)
+		// revel.INFO.Println("ab.PlatformMasks = ", ab.PlatformMasks)
+	}
+	// 勾选服务器判断
+	ab.AllServer = allServer
+	if !allServer {
+		revel.INFO.Printf("sids = %s\n", sids)
+		sidArr := strings.Split(sids, ",")
+		ab.ZoneIds = model.FindServerZoneIdByIds(sidArr)
 	}
 	ab.ActiveTypeId = bson.ObjectIdHex(rType)
 	ab.RewardId = bson.ObjectIdHex(reward)
@@ -55,13 +61,13 @@ func (c *Ac) Create(all, isMuti bool, name, rType, reward, beginAt, endAt, desc,
 			Id:            bson.NewObjectId(),
 			ActiveBatchId: ab.Id,
 			UseFlag:       false,
-			Times:         0,
+			Times:         mutiTimes,
 			Code:          code,
 		}
 		acs = append(acs, ac)
 	}
 	model.CreateActiveCodes(acs)
-	return c.RenderText("ok")
+	return c.RenderJson(bson.M{"ok": true})
 }
 
 func (c *Ac) FindAllActiveBatches() revel.Result {
@@ -104,7 +110,7 @@ func createCode(prefix string, size int) []string {
 			continue
 		} else {
 			rst[dst] = true
-			if len(rst) >= size {
+			if len(rst) > size {
 				break
 			}
 			arr = append(arr, dst)

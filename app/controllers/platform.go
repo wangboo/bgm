@@ -5,6 +5,7 @@ import (
 	"github.com/revel/revel"
 	"github.com/wangboo/bgm/app/model"
 	"labix.org/v2/mgo/bson"
+	"strings"
 )
 
 type Platform struct {
@@ -22,6 +23,13 @@ func (c *Platform) Find(id string) revel.Result {
 	platform := model.FindPlatform(id)
 	ss := model.FindAllServerState()
 	return c.RenderJson(bson.M{"platform": platform, "ss": ss})
+}
+
+// 找多个平台
+func (c *Platform) FindServerMutl(ids string) revel.Result {
+	idArr := strings.Split(ids, ",")
+	ss := model.FindServerByPlatformIds(idArr)
+	return c.RenderJson(ss)
 }
 
 // 通过游戏服务器id查询平台id
