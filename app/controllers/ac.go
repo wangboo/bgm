@@ -102,7 +102,7 @@ func createCode(prefix string, size int) []string {
 	}
 	for {
 		dst := "" + prefix
-		for j := 0; j < 8; j++ {
+		for j := 0; j < 10; j++ {
 			n := rand.Intn(10)
 			dst = dst + strconv.Itoa(n)
 		}
