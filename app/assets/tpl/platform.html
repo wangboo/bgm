@@ -25,7 +25,12 @@
 	</table>
 </div>
 <div class="well col-md-8">
-	<div class="input-group">
+	<div class="col-md-3" style="margin-top: 8px">
+		搜索模式
+		<input type="radio" name="queryMode" checked="checked" ng-model="queryMode" value="name">名字&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="radio" name="queryMode" ng-model="queryMode" value="id">id
+	</div>
+	<div class="input-group col-md-8">
 		<span class="input-group-addon">玩家查找器</span>
 		<input type="text" class="form-control" placeholder="用户名(请勾选查找服务器)" ng-model="findUserName">
 		<span class="input-group-btn">

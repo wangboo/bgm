@@ -29,7 +29,7 @@ func (m *MapResponse) String() string {
 // 从游戏服务器获取数据
 func GetDataFromGameServer(s *Server, uri string) interface{} {
 	url := fmt.Sprintf("http://%s:%d/jiyu/admin%s", s.Ip, s.Port, uri)
-	revel.INFO.Printf("GetDataFromGameServer %s\n", url)
+	revel.INFO.Printf("GetDataFromGameServer %s \n", url)
 	resp, err := http.Get(url)
 	if err != nil {
 		revel.ERROR.Printf("请求游戏服务器失败:%s\n", url)

@@ -68,6 +68,7 @@ app.controller "MainCtrl", ["$scope", "$http", "$location", ($scope, $http, $loc
 # 平台
 app.controller "PlatformCtrl", ["$scope", "$http", "$location", "$window", ($scope, $http, $location, $window)->
 	path = $location.path()
+	$scope.queryMode = "name"
 	$scope.timeLongToString = timeLongToString
 	$scope.jumpToUserInfo = jumpToUserInfo($scope, $location)
 	$scope.jumpToPlatform = jumpToPlatform($scope, $http, $location)
@@ -85,14 +86,17 @@ app.controller "PlatformCtrl", ["$scope", "$http", "$location", "$window", ($sco
 	# 模糊查询玩家
 	$scope.findUser = ()->
 		unless name = $scope.findUserName then return 
+		queryMode = $scope.queryMode or "name"
+		if queryMode == 'id' and not /^\d+$/.test(name) then return $window.alert("id搜索模式必须输入整数")
 		serverIds = for s in $scope.platform.Servers when s.check then s.Id
 		if serverIds.length == 0 then return $window.alert("请勾选查询服务器")
 		console.log serverIds
-		data = {name: name, ids: serverIds.join(",")}
+		data = {name: name, ids: serverIds.join(","), queryMode: queryMode}
 		$.post("/json/gs/findUserByName", data, (resp)->
 			$scope.findUsers = for sid in serverIds 
 				sinfo = findServerById($scope.platform.Servers, sid)
-				{sinfo: sinfo, data: resp[sid]}
+				data = if resp[sid] instanceof Array then resp[sid] else [resp[sid]]
+				{sinfo: sinfo, data: data}
 			console.log "$scope.findUsers = ", $scope.findUsers
 			$scope.$apply()
 		)

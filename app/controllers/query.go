@@ -6,6 +6,7 @@ import (
 	"github.com/revel/revel"
 	"github.com/wangboo/bgm/app/model"
 	"net/url"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -15,13 +16,23 @@ type Query struct {
 }
 
 // 通过名字和服务器ids查询服务器
-func (c *Query) FindUserByName(name, ids string) revel.Result {
+func (c *Query) FindUserByName(name, ids, queryMode string) revel.Result {
 	serverIds := strings.Split(ids, ",")
 	servers := model.FindServersByIds(serverIds)
-	revel.INFO.Printf("find servers %v \n", servers)
-	name = base64.StdEncoding.EncodeToString([]byte(name))
-	name = url.QueryEscape(name)
-	uri := fmt.Sprintf("/rest/findUserByName?name=%s", name)
+	// revel.INFO.Printf("find servers %v \n", servers)
+	var uri string
+	// 构建uri
+	if queryMode == "name" {
+		name = base64.StdEncoding.EncodeToString([]byte(name))
+		name = url.QueryEscape(name)
+		uri = fmt.Sprintf("/rest/findUserByName?name=%s", name)
+	} else {
+		id, err := strconv.Atoi(name)
+		if err != nil {
+			return c.RenderText("[]")
+		}
+		uri = fmt.Sprintf("/rest/info?userId=%d", id)
+	}
 	revel.INFO.Printf("uri : %s\n", uri)
 	mr := &model.GameServerMapReduce{Servers: servers, Uri: uri}
 	data := mr.DoIt()
