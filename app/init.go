@@ -2,8 +2,8 @@ package app
 
 import (
 	"github.com/revel/revel"
-	"github.com/wangboo/asset"
 	"github.com/wangboo/bgm/app/model"
+	"github.com/wangboo/gutil/asset"
 	"path"
 )
 
